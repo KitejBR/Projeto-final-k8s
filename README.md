@@ -2,25 +2,9 @@
 A escolha das imagens são baseadas nas aulas, ainda esta aprendento o que cada imagem faz, então não consegui desenvolver uma aplicação que interaja entre elas, no entando, todas estão funcionando corretamente e conseguimos testar cada uma. 
 
 **AMBIENTE DO MINIKUBE:**
-kitej@DESKTOP-K8JPMU6:~$ minikube start
-😄  minikube v1.31.2 on Ubuntu 22.04 (amd64)
-✨  Using the docker driver based on user configuration
-🎉  minikube 1.33.1 is available! Download it: https://github.com/kubernetes/minikube/releases/tag/v1.33.1
-💡  To disable this notice, run: 'minikube config set WantUpdateNotification false'
+Minikube v1.31.2 on Ubuntu 22.04 (amd64)
+Docker container (CPUs=2, Memory=2200MB) 
 
-📌  Using Docker driver with root privileges
-👍  Starting control plane node minikube in cluster minikube
-🚜  Pulling base image ...
-🔥  Creating docker container (CPUs=2, Memory=2200MB) ...
-🐳  Preparing Kubernetes v1.27.4 on Docker 24.0.4 ...
-    ▪ Generating certificates and keys ...
-    ▪ Booting up control plane ...
-    ▪ Configuring RBAC rules ...
-🔗  Configuring bridge CNI (Container Networking Interface) ...
-    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
-🔎  Verifying Kubernetes components...
-🌟  Enabled addons: storage-provisioner, default-storageclass
-🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 
 **VERSÃO DO MINIKUBE**
 minikube version: v1.31.2
