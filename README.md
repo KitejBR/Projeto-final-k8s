@@ -1,5 +1,5 @@
 **# Projeto-final-k8s**
-A escolha das imagens são baseadas nas aulas, ainda esta aprendento o que cada imagem faz, então não consegui desenvolver uma aplicação que interaja entre elas, no entando, todas estão funcionando corretamente e conseguimos testar cada uma. 
+A escolha das imagens são baseadas nas aulas, ainda esta aprendendo o que cada imagem faz, então não consegui desenvolver uma aplicação que interaja entre elas, no entando, todas estão funcionando corretamente e conseguimos testar cada uma. 
 
 **AMBIENTE DO MINIKUBE:**
 Minikube v1.31.2 on Ubuntu 22.04 (amd64)
