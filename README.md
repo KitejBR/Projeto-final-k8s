@@ -64,139 +64,27 @@ O projeto constitui em:
 1 Namespace;
 1 Service.
 
-**Segue o conteúdo do arquivo YAML**
-
-#Namespace
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: k8s-prd
-
----
-
-#Configmap
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: configmap-k8s
-  namespace: k8s-prd
-data:
-  DATABASE: bXlzcWw=
-  DATABASE_USER: am9hb3NpbHZh
-  DATABASE_PASSWORD: SzhzVGFrMW5n
-
----
-
-#Secret
-apiVersion: v1
-kind: Secret
-metadata:
-  name: secret-k8s
-  namespace: k8s-prd
-data:
-  DATABASE: bXlzcWw=
-  DATABASE_USER: am9hb3NpbHZh
-  DATABASE_PASSWORD: SzhzVGFrMW5n
-
----
-
-#Deployment Nginx
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: deploy-nginx-k8s
-  namespace: k8s-prd
-spec:
-  replicas: 1
-  selector:
-    matchLabels: 
-      app: svc-k8s
-  template:
-    metadata:
-      labels:
-        app: svc-k8s
-    spec:
-      containers:
-        - name: nginx
-          image: nginx
-          resources:
-            requests:
-              cpu: "500m"
-              memory: "128Mi"
-            limits: 
-              cpu: "1000m"
-              memory: "256Mi"
-          ports:
-          - containerPort: 80
-          envFrom:
-            - configMapRef:
-                name: configmap-k8s
-
----
-
-#Deployment Apache
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: deploy-apache-k8s
-  namespace: k8s-prd
-spec:
-  replicas: 1
-  selector:
-    matchLabels: 
-      app: svc-k8s
-  template:
-    metadata:
-      labels:
-        app: svc-k8s
-    spec:
-      containers:
-        - name: apache
-          image: httpd
-          resources:
-            requests:
-              cpu: "500m"
-              memory: "128Mi"
-            limits: 
-              cpu: "1000m"
-              memory: "256Mi"
-          ports:
-          - containerPort: 80
-          envFrom:
-            - secretRef:
-                name: secret-k8s
---- 
-
-#Service
-apiVersion: v1
-kind: Service
-metadata:
-  name: svc-k8s
-  namespace: k8s-prd
-spec:
-  selector:
-    app: svc-k8s
-  ports:
-  - port: 80
-
-_________________________________________________________________________________________________________
 
 **Testes de ambiente**
-![image](https://github.com/KitejBR/Projeto-final-k8s/assets/147888865/19d062ab-9681-476c-ab9d-5797f8ccac05)
-![image](https://github.com/KitejBR/Projeto-final-k8s/assets/147888865/0e098747-5794-4157-8985-a8ce8cb39ccf)
+![image](https://github.com/KitejBR/Projeto-final-k8s/assets/147888865/5c8c6dc3-69c6-44ed-85be-6be53d49b821)
+![image](https://github.com/KitejBR/Projeto-final-k8s/assets/147888865/a8da11b6-ee20-4798-9474-fd43669d53a2)
+![image](https://github.com/KitejBR/Projeto-final-k8s/assets/147888865/8206b2d1-c8b9-486d-a857-db6eca8ad013)
+
 
 **Comandos utilizados nos testes:**
 kubectl get pods -n k8s-prd -o wide
 kubectl get svc -n k8s-prd
+kubectl get deployments -n k8s-prd
+kubectl get ns
+
+**Teste de verificação das variáveis do Configmap e Secret**
+![image](https://github.com/KitejBR/Projeto-final-k8s/assets/147888865/13480faf-6041-46e2-b44e-099d54bc3486)
+
+**Comandos utilizados nos testes:**
 kubectl get cm -n k8s-prd
 kubectl get secret -n k8s-prd 
 kubectl  describe cm  -n k8s-prd configmap-k8s
 kubectl  describe secret  -n k8s-prd secret-k8s
-
-**Teste de verificação das variáveis do Configmap e Secret**
-![image](https://github.com/KitejBR/Projeto-final-k8s/assets/147888865/4b7697fa-c363-4638-87ed-d79af5f5271b)
-
-**Comandos utilizados nos testes:**
 kubectl exec -it -n k8s-prd deploy-apache-k8s-6b5958bf88-8l4mq -- env | grep -i DATABASE
 kubectl exec -it -n k8s-prd deploy-nginx-k8s-8558fbddb8-cprp9 -- env | grep -i DATABASE
 **Obsercação: O nome dos pods serão diferente dos comandos acima.**
