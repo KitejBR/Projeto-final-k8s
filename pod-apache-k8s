@@ -1,0 +1,65 @@
+#Secret
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-k8s
+  namespace: k8s-prd
+data:
+  DATABASE: bXlzcWw=
+  DATABASE_USER: am9hb3NpbHZh
+  DATABASE_PASSWORD: SzhzVGFrMW5n
+
+---
+
+#Deployment Apache
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-apache-k8s
+  labels:
+    app: deploy-apache-k8s
+  namespace: k8s-prd
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: deploy-apache-k8s
+  template:
+    metadata:
+      labels:
+        app: deploy-apache-k8s
+    spec:
+      containers:
+        - name: apache
+          image: httpd
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "128Mi"
+            limits: 
+              cpu: "1000m"
+              memory: "256Mi"
+          ports:
+          - containerPort: 80
+            name: http-web-apache
+          envFrom:
+            - secretRef:
+                name: secret-k8s
+
+---
+
+#Service Apache NodePort
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-apache-k8s
+  namespace: k8s-prd
+spec:
+  type: NodePort
+  selector:
+    app: svc-apache-k8s
+  ports:
+  - name: svc-port-apache
+    port: 80
+    targetPort: http-web-apache
+    nodePort: 30001

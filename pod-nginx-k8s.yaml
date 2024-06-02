@@ -1,0 +1,65 @@
+#Configmap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-k8s
+  namespace: k8s-prd
+data:
+  DATABASE: bXlzcWw=
+  DATABASE_USER: am9hb3NpbHZh
+  DATABASE_PASSWORD: SzhzVGFrMW5n
+
+---
+
+#Deployment Nginx
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-nginx-k8s
+  labels:
+    app: deploy-nginx-k8s
+  namespace: k8s-prd
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: deploy-nginx-k8s
+  template:
+    metadata:
+      labels:
+        app: deploy-nginx-k8s
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "128Mi"
+            limits: 
+              cpu: "1000m"
+              memory: "256Mi"
+          ports:
+          - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: configmap-k8s
+
+--- 
+
+#Service Nginx ClusterIP
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-nginx-k8s
+  namespace: k8s-prd
+spec:
+  selector:
+    app: svc-nginx-k8s
+  type: ClusterIP
+  ports:
+  - port: 3000
+    targetPort: 3000
+
+
+
